@@ -9,6 +9,8 @@ module Wisper
     class Worker
       include ::Sidekiq::Worker
 
+      sidekiq_options queue: 'events'
+
       def perform(yml)
         (subscriber, event, args) = ::YAML.load(yml)
         subscriber.public_send(event, *args)
